@@ -7,15 +7,14 @@ using UnityEngine.PlayerLoop;
 
 public class ProtectionAleatoire
 {
-   
+
     static void Update()
     {
 
         ECSManager manager = GameObject.Find("ECSManagerObj").GetComponent<ECSManager>();
 
-        manager.UpdateShapeColor(3, Color.blue);
-            }
-    
+        manager.CreateShape(3, 3);
 
 
+    }
 }

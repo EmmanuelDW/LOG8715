@@ -147,7 +147,7 @@ public class ECSManager : MonoBehaviour
     
 }
 
-public interface ISystem
+public interface ISystem 
 {
     void UpdateSystem();
     string Name { get; }

@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class StartUp : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    static bool firstFrame = false;
+    List<Entite> entites = new List<Entite>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
