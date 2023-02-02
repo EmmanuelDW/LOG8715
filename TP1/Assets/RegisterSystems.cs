@@ -6,8 +6,12 @@ public class RegisterSystems
     {
         // determine order of systems to add
         var toRegister = new List<ISystem>();
-        
+        StartUp startu
+            p;
+
+        toRegister.Add(startup);
         // Add your systems here
+
 
         return toRegister;
     }
