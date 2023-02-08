@@ -10,14 +10,14 @@ public struct Entite
 }
 
 
-public class Composante 
+static public class Composante 
 {
-    public Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>();
-    public Dictionary<uint, Vitesse> vitesse = new Dictionary<uint, Vitesse>();
-    public Dictionary<uint, Position> position = new Dictionary<uint, Position>();
-    public Dictionary<uint, Couleur> couleur = new Dictionary<uint, Couleur>();
-    public Dictionary<uint, Protection> protection = new Dictionary<uint, Protection>();
-    public Dictionary<uint, Mobilite> mobilite = new Dictionary<uint, Mobilite>();
+    static public Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>();
+    static public Dictionary<uint, Vitesse> vitesse = new Dictionary<uint, Vitesse>();
+    static public Dictionary<uint, Position> position = new Dictionary<uint, Position>();
+    static public Dictionary<uint, Couleur> couleur = new Dictionary<uint, Couleur>();
+    static public Dictionary<uint, Protection> protection = new Dictionary<uint, Protection>();
+    static public Dictionary<uint, Mobilite> mobilite = new Dictionary<uint, Mobilite>();
 
 }
 

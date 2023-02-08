@@ -18,7 +18,13 @@ MonoBehaviour:
   protectionProbability: 0.01
   protectionDuration: 5
   protectionCooldown: 15
-  allShapesToSpawn: []
+  circleInstancesToSpawn:
+  - initialSize: 3
+    initialPosition: {x: 2, y: 2}
+    initialVelocity: {x: 4, y: 4}
+  - initialSize: 8
+    initialPosition: {x: 6, y: 6}
+    initialVelocity: {x: 2, y: 2}
   systemsEnabled:
     keys: []
     values: 

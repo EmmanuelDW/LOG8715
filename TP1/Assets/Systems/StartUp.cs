@@ -4,66 +4,67 @@ using UnityEngine;
 
 
 
-public class StartUp
+public class StartUp : ISystem
 {
-    ECSManager manager = ECSManager.Instance;
-    Composante composante;
-
-  
-
+    readonly ECSManager manager = ECSManager.Instance;
+    static bool firstFrame = true;
     public void UpdateSystem()
     {
-        if (Time.frameCount != 0)
-        {
-            return;
-        }
 
-
+        Debug.Log("StartUp");
         uint j = 0;
-        foreach (Config.ShapeConfig i in manager.Config.circleInstancesToSpawn)
+        
+        if (firstFrame == true)
         {
-            //Size
-            Taille taille;
-            taille.taille = i.initialSize;
-            composante.taille.Add(j, taille);
-            manager.CreateShape(j, i.initialSize);
+            foreach (Config.ShapeConfig i in manager.Config.circleInstancesToSpawn)
+            {
 
-            //Velocity
-            Vitesse vitesse;
-            vitesse.vitesse = i.initialVelocity;
-            composante.vitesse.Add(j, vitesse);
+                //Size
+                Taille taille;
+                taille.taille = i.initialSize;
+                Composante.taille.Add(j, taille);
+                manager.CreateShape(j, i.initialSize);
 
-            //Position
-            Position position;
-            position.position = i.initialPosition;
-            composante.position.Add(j, position);
-            manager.UpdateShapePosition(j, i.initialPosition);
+                //Velocity
+                Vitesse vitesse;
+                vitesse.vitesse = i.initialVelocity;
+                Composante.vitesse.Add(j, vitesse);
 
-            //Color
-            Couleur couleur;
-            couleur.couleur = Color.white;
-            composante.couleur.Add(j, couleur);
-            manager.UpdateShapeColor(j, Color.white);
+                //Position
+                Position position;
+                position.position = i.initialPosition;
+                Composante.position.Add(j, position);
+                manager.UpdateShapePosition(j, i.initialPosition);
 
-            //Protection
-            Protection protection;
-            protection.protege = false;
-            protection.timeleft = 0;
-            composante.protection.Add(j, protection);
+                //Color
+                Couleur couleur;
+                couleur.couleur = Color.black;
+                Composante.couleur.Add(j, couleur);
+                manager.UpdateShapeColor(j, Color.black);
 
-            //Mobility
-            Mobilite mobilite;
-            mobilite.mobilite = "Dynamique";
-            composante.mobilite.Add(j, mobilite);
+                //Protection
+                Protection protection;
+                protection.protege = false;
+                protection.timeleft = 0;
+                Composante.protection.Add(j, protection);
+
+                //Mobility
+                Mobilite mobilite;
+                mobilite.mobilite = "Dynamique";
+                Composante.mobilite.Add(j, mobilite);
 
 
 
-            j++;
+                j++;
+                firstFrame = false;
 
+            }
         }
+        
         
          
     }
+    public string Name { get { return "StartUp"; }}
 
 }
 
