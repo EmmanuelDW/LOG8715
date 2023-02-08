@@ -6,8 +6,10 @@ using UnityEngine;
    DO NOT CHANGE, THIS WILL BE REPLACED AT CORRECTION
    NE PAS CHANGER, CE FICHIER VA ETRE REMPLACER A LA CORRECTION
 */
+
 public class ECSManager : MonoBehaviour
 {
+    
     #region Constants
     private const float MinInstantColorUpdate = 0.25f;
     private const float ColorUpdateSpeed = 4f;
@@ -133,6 +135,12 @@ public class ECSManager : MonoBehaviour
     {
         foreach (var id in _nextColorUpdate.Keys)
         {
+            if (!_spriteRenderersCache.ContainsKey(id))
+            {
+                _nextColorToDelete.Push(id);
+                continue;
+            }
+            
             var currentColor = _spriteRenderersCache[id].color;
             _spriteRenderersCache[id].color = Color.Lerp(currentColor, _nextColorUpdate[id], Time.deltaTime * ColorUpdateSpeed);
 
