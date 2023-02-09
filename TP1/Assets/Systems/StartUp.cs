@@ -48,10 +48,6 @@ public class StartUp : ISystem
                 protection.timeleft = 0;
                 Composante.protection.Add(j, protection);
 
-                //Mobility
-                Mobilite mobilite;
-                mobilite.mobilite = "Dynamique";
-                Composante.mobilite.Add(j, mobilite);
 
 
 
