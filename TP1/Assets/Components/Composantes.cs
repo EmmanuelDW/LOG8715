@@ -17,7 +17,6 @@ static public class Composante
     static public Dictionary<uint, Position> position = new Dictionary<uint, Position>();
     static public Dictionary<uint, Couleur> couleur = new Dictionary<uint, Couleur>();
     static public Dictionary<uint, Protection> protection = new Dictionary<uint, Protection>();
-    static public Dictionary<uint, Mobilite> mobilite = new Dictionary<uint, Mobilite>();
 
 }
 
@@ -47,9 +46,4 @@ public struct Protection
 {
     public bool protege;
     public float timeleft;
-}
-
-public struct Mobilite
-{
-    public string mobilite;
 }

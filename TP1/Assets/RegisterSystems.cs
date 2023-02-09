@@ -8,8 +8,11 @@ public class RegisterSystems
         // determine order of systems to add
         var toRegister = new List<ISystem>
         {
-            new StartUp()
+            new StartUp(),
+            new Move(),
+            new Bounce()
         };
+ 
         Debug.Log("EndRegister");
 
         
