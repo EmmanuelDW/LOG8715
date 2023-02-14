@@ -17,7 +17,7 @@ static public class Composante
     static public Dictionary<uint, Position> position = new Dictionary<uint, Position>();
     static public Dictionary<uint, Couleur> couleur = new Dictionary<uint, Couleur>();
     static public Dictionary<uint, Protection> protection = new Dictionary<uint, Protection>();
-
+    static public Dictionary<uint, Hit> hit = new Dictionary<uint, Hit>();
 }
 static public class ComposanteReverse
 {
@@ -26,7 +26,7 @@ static public class ComposanteReverse
     static public Dictionary<uint, Position> positionReverse = new Dictionary<uint, Position>();
     static public Dictionary<uint, Couleur> couleurReverse = new Dictionary<uint, Couleur>();
     static public Dictionary<uint, Protection> protectionReverse = new Dictionary<uint, Protection>();
-
+    static public Dictionary<uint, Hit> hitReverse = new Dictionary<uint, Hit>();
 }
     static public class ComposanteReverse
     {
@@ -55,13 +55,7 @@ public struct Protection
     public float timeleft;
 }
 
-    public struct Couleur
-    {
-        public Color couleur;
-    }
-
-    public struct Protection
-    {
-        public bool protege;
-        public float timeleft;
-    }
+public struct Hit
+{
+    public bool hit;
+}

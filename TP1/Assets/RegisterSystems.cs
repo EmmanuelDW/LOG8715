@@ -13,6 +13,10 @@ public class RegisterSystems
             new Bounce(),
             new Explosion(),
             new Destroy()
+            new ColorSetter(),
+            //new ReverseTime()
+            //new Protect(),
+  
         };
  
         Debug.Log("EndRegister");
