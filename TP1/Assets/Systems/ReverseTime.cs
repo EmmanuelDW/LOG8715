@@ -10,7 +10,7 @@ public class ReverseTime : ISystem
     
     public void UpdateSystem()
     {
-        //Reéduction du cooldown
+        //Reï¿½duction du cooldown
         if (cooldownReverse !=0)
         {
 
@@ -33,10 +33,10 @@ public class ReverseTime : ISystem
             firstBackUpDone= true;
         }
 
-        //Retour 3 secondes dans le passé
+        //Retour 3 secondes dans le passï¿½
         if (Input.GetKey(KeyCode.Space) == true && cooldownReverse!= 0f)
         {
-            Debug.Log("Le retour en arrière est en cooldown");
+            Debug.Log("Le retour en arriï¿½re est en cooldown");
         }
 
         if (Input.GetKey(KeyCode.Space) == true && cooldownReverse == 0f)

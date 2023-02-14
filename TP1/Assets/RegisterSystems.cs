@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RegisterSystems
@@ -11,8 +11,8 @@ public class RegisterSystems
             new StartUp(),
             new Move(),
             new Bounce(),
-            //new Protect(),
-            //new ReverseTime()
+            new Explosion(),
+            new Destroy()
         };
  
         Debug.Log("EndRegister");
