@@ -8,17 +8,21 @@ public class StartUp : ISystem
 {
     readonly ECSManager manager = ECSManager.Instance;
     static bool firstFrame = true;
+    
+  
+
     public void UpdateSystem()
     {
 
-        //Debug.Log("ok");
-
+        
+        UnityEngine.Random.InitState(manager.Config.seed);
         uint j = 0;
         if (firstFrame == true)
         {
 
             foreach (Config.ShapeConfig i in manager.Config.circleInstancesToSpawn)
             {
+               
 
                 //Size
                 Taille taille;
@@ -45,8 +49,8 @@ public class StartUp : ISystem
 
                 //Protection
                 Protection protection;
-                protection.protege = false;
-                protection.timeleft = 0;
+                protection.cooldown = 0f;
+                protection.timeleft = 0f;
                 Composante.protection.Add(j, protection);
 
                 j++;

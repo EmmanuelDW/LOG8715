@@ -5,8 +5,9 @@ using UnityEngine;
 public class ReverseTime : ISystem
 {
     public static bool firstBackUpDone = false;
+    public static float cooldownReverse = 3f;
     readonly ECSManager manager = ECSManager.Instance;
-    static float cooldownReverse = 3f;
+    
     public void UpdateSystem()
     {
         //Reéduction du cooldown
