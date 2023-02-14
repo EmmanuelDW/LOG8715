@@ -10,7 +10,9 @@ public class RegisterSystems
         {
             new StartUp(),
             new Move(),
-            new Bounce()
+            new Bounce(),
+            //new Protect(),
+            //new ReverseTime()
         };
  
         Debug.Log("EndRegister");
