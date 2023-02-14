@@ -10,7 +10,9 @@ public class RegisterSystems
         {
             new StartUp(),
             new Move(),
-            new Bounce()
+            new Bounce(),
+            new Explosion(),
+            new Destroy()
         };
  
         Debug.Log("EndRegister");
