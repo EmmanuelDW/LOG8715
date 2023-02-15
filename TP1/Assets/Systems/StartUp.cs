@@ -8,8 +8,8 @@ public class StartUp : ISystem
 {
     readonly ECSManager manager = ECSManager.Instance;
     static bool firstFrame = true;
-    
-  
+    public static uint count = 0;
+
 
     public void UpdateSystem()
     {
@@ -22,7 +22,7 @@ public class StartUp : ISystem
 
             foreach (Config.ShapeConfig i in manager.Config.circleInstancesToSpawn)
             {
-               
+                count++;
 
                 //Size
                 Taille taille;
@@ -55,7 +55,8 @@ public class StartUp : ISystem
 
                 //Collision
                 Hit collision;
-                collision.hit = true;
+                collision.hit = false;
+                Composante.hit.Add(j, collision);
 
                 j++;
                 firstFrame = false;

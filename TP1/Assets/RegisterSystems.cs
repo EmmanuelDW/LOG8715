@@ -11,12 +11,13 @@ public class RegisterSystems
             new StartUp(),
             new Move(),
             new Bounce(),
-            //new Explosion(),
-            //new Destroy()
+            new WallBounce(),
+            new Explosion(),
+            new Destroy(),
             new ColorSetter(),
             //new ReverseTime()
             //new Protect(),
-            new WallBounce()
+            
   
         };
  

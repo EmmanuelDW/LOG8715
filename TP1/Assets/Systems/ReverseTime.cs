@@ -58,6 +58,7 @@ public class ReverseTime : ISystem
             foreach (uint id in Composante.taille.Keys) 
             {
                 //Rendering
+                
                 manager.CreateShape(id, (int)Composante.taille[id].taille);
                 manager.UpdateShapePosition(id, Composante.position[id].position);
                 manager.UpdateShapeColor(id, Composante.couleur[id].couleur);

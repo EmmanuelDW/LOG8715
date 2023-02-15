@@ -55,7 +55,7 @@ public class Bounce : ISystem
                     Taille taille2;
 
 
-                    if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry2.Key].taille)
+                    if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry2.Key].taille)
                     {
                         
                         taille1.taille = Composante.taille[entry1.Key].taille - 1f;
@@ -67,10 +67,11 @@ public class Bounce : ISystem
                         manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
                         
                     }
-                    else if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry2.Key].taille)
+                    else if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry2.Key].taille)
                     {
                         taille1.taille = Composante.taille[entry1.Key].taille + 1f;
                         Composante.taille[entry1.Key] = taille1;
+
                         manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
 
 

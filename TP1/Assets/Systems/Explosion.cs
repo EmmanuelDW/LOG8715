@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 
@@ -7,20 +9,22 @@ using UnityEngine;
 public class Explosion : ISystem
 {
     readonly ECSManager manager = ECSManager.Instance;
-    int count = 0;
+    
     static bool firstFrame = true;
     static bool doOnce = true;
+   
+  
+    
     float startTime;
     public void UpdateSystem()
     {
 
+        Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
         Debug.Log("Explosion");
 
-        Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
-        uint nextId = (uint) taille.Count;
-        uint firstCircleId = (uint) taille.Count + 1;
-        uint secondCircleId = (uint) taille.Count + 2;
-        count++;
+
+
+
 
         if (doOnce) {
             startTime = Time.time;
@@ -42,9 +46,12 @@ public class Explosion : ISystem
                 Debug.Log(explosionSize);
                 if (i.Value.taille == explosionSize)
                 {
+
                     //Debug.Log("taille5");
                     Position p = Composante.position[i.Key];
                     Vitesse v = Composante.vitesse[i.Key];
+                    Hit h;
+                    h.hit = false;
                     Vitesse v2;
                     v2.vitesse.x = -(v.vitesse.x);
                     v2.vitesse.y = -(v.vitesse.y);
@@ -57,21 +64,32 @@ public class Explosion : ISystem
                     Composante.vitesse.Remove(i.Key);
                     Composante.couleur.Remove(i.Key);
                     Composante.protection.Remove(i.Key);
+                    Composante.hit.Remove(i.Key);
                     //Debug.Log("taille5_2");
+
+                    uint firstCircleId = StartUp.count;
+                    StartUp.count++;
+
+                    uint secondCircleId = StartUp.count;
+                    StartUp.count++;
+
 
                     Taille taille1;
                     taille1.taille = explosionSize / 2;
                     Composante.taille.Add(firstCircleId, taille1);
                     Composante.position.Add(firstCircleId, p);
                     Composante.vitesse.Add(firstCircleId, v);
+                    Composante.hit.Add(firstCircleId, h);
                     manager.CreateShape(firstCircleId, (int)taille1.taille);
                     manager.UpdateShapePosition(firstCircleId, p.position);
+
 
                     Taille taille2;
                     taille2.taille = explosionSize / 2;
                     Composante.taille.Add(secondCircleId, taille2);
                     Composante.position.Add(secondCircleId, p);
                     Composante.vitesse.Add(secondCircleId, v2);
+                    Composante.hit.Add(firstCircleId, h);
                     manager.CreateShape(secondCircleId, (int)taille2.taille);
                     manager.UpdateShapePosition(secondCircleId, p.position);
                 }
