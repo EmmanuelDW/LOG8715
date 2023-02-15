@@ -16,6 +16,7 @@ public class RegisterSystems
             new ColorSetter(),
             //new ReverseTime()
             //new Protect(),
+            new WallBounce()
   
         };
  

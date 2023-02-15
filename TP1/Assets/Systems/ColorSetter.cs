@@ -12,7 +12,9 @@ public class ColorSetter : ISystem
         Couleur couleur;
         Hit hit;
         hit.hit = false;
-        foreach (KeyValuePair<uint,Hit> pair in Composante.hit)
+
+        Dictionary<uint, Hit> h = new Dictionary<uint, Hit>(Composante.hit);
+        foreach (KeyValuePair<uint,Hit> pair in h)
         {
             if (Composante.hit[pair.Key].hit == false)
             {
