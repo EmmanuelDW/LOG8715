@@ -12,15 +12,26 @@ public class ColorSetter : ISystem
         Couleur couleur;
         Hit hit;
         hit.hit = false;
+        int explosionSize = manager.Config.explosionSize;
+        Color orange = new Color(1.0f, 0.64f, 0.0f);
+
 
         Dictionary<uint, Hit> h = new Dictionary<uint, Hit>(Composante.hit);
         foreach (KeyValuePair<uint,Hit> pair in h)
         {
             if (Composante.hit[pair.Key].hit == false)
             {
-                couleur.couleur = Color.red;
-                manager.UpdateShapeColor(pair.Key, couleur.couleur);
-                Composante.couleur[pair.Key] = couleur;
+                if (Composante.taille[pair.Key].taille == explosionSize - 1) {
+                    couleur.couleur = orange;
+                    manager.UpdateShapeColor(pair.Key, couleur.couleur);
+                    Composante.couleur[pair.Key] = couleur;
+                }
+                else
+                {
+                    couleur.couleur = Color.blue;
+                    manager.UpdateShapeColor(pair.Key, couleur.couleur);
+                    Composante.couleur[pair.Key] = couleur;
+                }
                 
             }
             if (Composante.hit[pair.Key].hit == true)

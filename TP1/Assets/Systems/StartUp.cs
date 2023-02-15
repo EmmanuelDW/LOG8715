@@ -55,7 +55,8 @@ public class StartUp : ISystem
 
                 //Collision
                 Hit collision;
-                collision.hit = true;
+                collision.hit = false;
+                Composante.hit.Add(j, collision);
 
                 j++;
                 firstFrame = false;
