@@ -20,49 +20,67 @@ public class Bounce : ISystem
             {
                 
             
-                    CollisionResult colRes = CollisionUtility.CalculateCollision(entry1.Value.position, Composante.vitesse[entry1.Key].vitesse, Composante.taille[entry1.Key].taille, entry2.Value.position, Composante.vitesse[entry2.Key].vitesse, Composante.taille[entry2.Key].taille);
-                    if (colRes != null)
+                CollisionResult colRes = CollisionUtility.CalculateCollision(entry1.Value.position, Composante.vitesse[entry1.Key].vitesse, Composante.taille[entry1.Key].taille, entry2.Value.position, Composante.vitesse[entry2.Key].vitesse, Composante.taille[entry2.Key].taille);
+                if (colRes != null)
+                {
+
+
+                    Position p1;
+                    p1.position = colRes.position1;
+                    Composante.position[entry1.Key] = p1;
+
+                    Vitesse v1;
+                    v1.vitesse = colRes.velocity1;
+                    Composante.vitesse[entry1.Key] = v1;
+
+                    Hit h1;
+                    h1.hit = true;
+                    Composante.hit[entry1.Key] = h1;
+
+
+                    Position p2;
+                    p2.position = colRes.position2;
+                    Composante.position[entry2.Key] = p2;
+
+
+                    Vitesse v2;
+                    v2.vitesse = colRes.velocity2;
+                    Composante.vitesse[entry2.Key] = v2;
+
+                    Hit h2;
+                    h2.hit = true;
+                    Composante.hit[entry2.Key] = h2;
+
+                    Taille taille1;
+                    Taille taille2;
+
+
+                    if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry1.Key].taille)
                     {
+                        taille1.taille = Composante.taille[entry1.Key].taille - 1f;
+                        Composante.taille[entry1.Key] = taille1;
+                        manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
 
-                     
-                        Debug.Log(Composante.vitesse[entry1.Key].vitesse);
-
-                        Position p1;
-                        p1.position = colRes.position1;
-                        Composante.position[entry1.Key] = p1;
-
-                        Vitesse v1;
-                        v1.vitesse = colRes.velocity1;
-                        Composante.vitesse[entry1.Key] = v1;
-
-                        Position p2;
-                        p2.position = colRes.position2;
-                        Composante.position[entry2.Key] = p2;
-
-
-                        Vitesse v2;
-                        v2.vitesse = colRes.velocity2;
-                        Composante.vitesse[entry2.Key] = v2;
-
-                        Debug.Log(Composante.vitesse[entry1.Key].vitesse);
-
-                        manager.UpdateShapeColor(entry1.Key, Color.green);
-                        manager.UpdateShapeColor(entry2.Key, Color.green);
-
-                            
-
-
-
+                        taille2.taille = Composante.taille[entry2.Key].taille + 1f;
+                        Composante.taille[entry2.Key] = taille2;
+                        manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                        
                     }
+                    else if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry1.Key].taille)
+                    {
+                        taille1.taille = Composante.taille[entry1.Key].taille + 1f;
+                        Composante.taille[entry1.Key] = taille1;
+                        manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
+                        
 
-
-                
-
+                        taille2.taille = Composante.taille[entry2.Key].taille - 1f;
+                        Composante.taille[entry2.Key] = taille2;
+                        manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                        
+                    }
+                }
             }
-
-
         }
-
     }
     public string Name { get { return "Bounce"; } }
 }

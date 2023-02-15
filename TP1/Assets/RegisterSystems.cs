@@ -11,8 +11,12 @@ public class RegisterSystems
             new StartUp(),
             new Move(),
             new Bounce(),
-            new Explosion(),
-            new Destroy()
+            //new Explosion(),
+            //new Destroy()
+            new ColorSetter(),
+            //new ReverseTime()
+            //new Protect(),
+  
         };
  
         Debug.Log("EndRegister");

@@ -53,6 +53,10 @@ public class StartUp : ISystem
                 protection.timeleft = 0f;
                 Composante.protection.Add(j, protection);
 
+                //Collision
+                Hit collision;
+                collision.hit = true;
+
                 j++;
                 firstFrame = false;
 
