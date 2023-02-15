@@ -10,13 +10,14 @@ public class Bounce : ISystem
     {
 
         
-        Dictionary<uint, Position> temp = new Dictionary<uint, Position>(Composante.position);
+        Dictionary<uint, Position> temp1 = new Dictionary<uint, Position>(Composante.position);
+        Dictionary<uint, Position> temp2 = new Dictionary<uint, Position>(Composante.position);
 
-        foreach (KeyValuePair<uint, Position> entry1 in Composante.position)
+        foreach (KeyValuePair<uint, Position> entry1 in temp1)
         {
-            temp.Remove(entry1.Key);
+            temp2.Remove(entry1.Key);
 
-            foreach (KeyValuePair<uint, Position> entry2 in temp)
+            foreach (KeyValuePair<uint, Position> entry2 in temp2)
             {
                 
             
