@@ -9,12 +9,12 @@ public class StartUp : ISystem
     readonly ECSManager manager = ECSManager.Instance;
     static bool firstFrame = true;
     public static uint count = 0;
-
+    
 
     public void UpdateSystem()
     {
 
-        
+
         UnityEngine.Random.InitState(manager.Config.seed);
         uint j = 0;
         if (firstFrame == true)
