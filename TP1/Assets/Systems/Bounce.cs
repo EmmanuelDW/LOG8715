@@ -10,15 +10,15 @@ public class Bounce : ISystem
     {
 
         
-        Dictionary<uint, Position> temp = new Dictionary<uint, Position>(Composante.position);
+        Dictionary<uint, Position> temp1 = new Dictionary<uint, Position>(Composante.position);
+        Dictionary<uint, Position> temp2 = new Dictionary<uint, Position>(Composante.position);
 
-        foreach (KeyValuePair<uint, Position> entry1 in Composante.position)
+        foreach (KeyValuePair<uint, Position> entry1 in temp1)
         {
-            temp.Remove(entry1.Key);
+            temp2.Remove(entry1.Key);
 
-            foreach (KeyValuePair<uint, Position> entry2 in temp)
+            foreach (KeyValuePair<uint, Position> entry2 in temp2)
             {
-                
             
                 CollisionResult colRes = CollisionUtility.CalculateCollision(entry1.Value.position, Composante.vitesse[entry1.Key].vitesse, Composante.taille[entry1.Key].taille, entry2.Value.position, Composante.vitesse[entry2.Key].vitesse, Composante.taille[entry2.Key].taille);
                 if (colRes != null)
@@ -55,8 +55,9 @@ public class Bounce : ISystem
                     Taille taille2;
 
 
-                    if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry1.Key].taille)
+                    if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry2.Key].taille)
                     {
+                        
                         taille1.taille = Composante.taille[entry1.Key].taille - 1f;
                         Composante.taille[entry1.Key] = taille1;
                         manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
@@ -66,17 +67,17 @@ public class Bounce : ISystem
                         manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
                         
                     }
-                    else if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry1.Key].taille)
+                    else if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry2.Key].taille)
                     {
                         taille1.taille = Composante.taille[entry1.Key].taille + 1f;
                         Composante.taille[entry1.Key] = taille1;
                         manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
-                        
+
 
                         taille2.taille = Composante.taille[entry2.Key].taille - 1f;
                         Composante.taille[entry2.Key] = taille2;
                         manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
-                        
+
                     }
                 }
             }
