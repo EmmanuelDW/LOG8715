@@ -48,14 +48,15 @@ public class ColorSetter : ISystem
                         }
                         else
                         {
-                            if (Composante.protection[pair.Key].timeleft >= 0f)
-                            {
-                                priority = "Protege";
-                            }
-                            else
-                            {
-                                priority = "Dynamique";
-                            }
+                            priority = "Dynamique";
+                            //if (Composante.protection[pair.Key].timeleft > 0f)
+                            //{
+                            //    priority = "Protection";
+                            //}
+                            //else
+                            //{
+                            //    priority = "Dynamique";
+                            //}
                         }
                     }
                 }
