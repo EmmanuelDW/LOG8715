@@ -30,7 +30,7 @@ public class Destroy : ISystem
 
 
     }
-    public string Name { get { return "Explosion"; } }
+    public string Name { get { return "Destroy"; } }
 
 }
 
