@@ -16,7 +16,7 @@ public class RegisterSystems
             new Destroy(),
             new ColorSetter(),
             //new ReverseTime()
-            //new Protect(),
+            new Protect(),
             
   
         };

@@ -10,8 +10,7 @@ public class Explosion : ISystem
 {
     readonly ECSManager manager = ECSManager.Instance;
     
-    static bool firstFrame = true;
-    static bool doOnce = true;
+
    
   
     

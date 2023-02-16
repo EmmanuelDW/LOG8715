@@ -14,8 +14,8 @@ public class StartUp : ISystem
     public void UpdateSystem()
     {
 
-
-        UnityEngine.Random.InitState(manager.Config.seed);
+        // retirer le * pour la remise
+        UnityEngine.Random.InitState(manager.Config.seed * System.DateTime.Now.Millisecond);
         uint j = 0;
 
         if (firstFrame == true)

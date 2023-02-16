@@ -48,15 +48,16 @@ public class ColorSetter : ISystem
                         }
                         else
                         {
-                            priority = "Dynamique";
-                            //if (Composante.protection[pair.Key].timeleft > 0f)
-                            //{
-                            //    priority = "Protection";
-                            //}
-                            //else
-                            //{
-                            //    priority = "Dynamique";
-                            //}
+                            //priority = "Dynamique";
+                            if (Composante.protection[pair.Key].timeleft > 0f)
+                            {
+                                Debug.Log("entre dans couleur protect");
+                                priority = "Protection";
+                            }
+                            else
+                            {
+                                priority = "Dynamique";
+                            }
                         }
                     }
                 }
@@ -66,7 +67,7 @@ public class ColorSetter : ISystem
             
             switch (priority)
             {
-                case "Protege":
+                case "Protection":
                     couleur.couleur = Color.yellow;
                     manager.UpdateShapeColor(pair.Key, couleur.couleur);
                     Composante.couleur[pair.Key] = couleur;
