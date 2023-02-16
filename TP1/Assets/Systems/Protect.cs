@@ -10,9 +10,6 @@ public class Protect : ISystem
         Couleur couleurProtection;
         couleurProtection.couleur = Color.yellow;
 
-  
-
-
         Dictionary<uint, Protection> temp = new Dictionary<uint, Protection>(Composante.protection);
         foreach (KeyValuePair<uint, Protection> pair in temp)
         {
@@ -22,7 +19,7 @@ public class Protect : ISystem
 
                 Protection p;
                 p.cooldown = 0f;
-                p.timeleft = manager.Config.protectionDuration;
+                p.timeleft = manager.Config.protectionDuration/Time.deltaTime;
                 Composante.protection[pair.Key] = p;
 
             }
@@ -33,7 +30,7 @@ public class Protect : ISystem
                 p.cooldown = 0;
                 if (p.timeleft == 0)
                 {
-                    p.cooldown = manager.Config.protectionCooldown;
+                    p.cooldown = manager.Config.protectionCooldown / Time.deltaTime;
                 }
                 Composante.protection[pair.Key] = p;
 
