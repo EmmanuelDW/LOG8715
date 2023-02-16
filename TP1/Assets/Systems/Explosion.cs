@@ -22,23 +22,6 @@ public class Explosion : ISystem
         Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
         //Debug.Log("Explosion");
 
-
-
-
-
-        if (doOnce) {
-            startTime = Time.time;
-            doOnce = false;
-        }
-
-        if (firstFrame)
-        {
-            if (Time.time - startTime > 3f)
-            {
-                firstFrame = false;
-            }
-        }
-        else 
         {
             foreach (KeyValuePair<uint, Taille> i in taille)
             {
@@ -47,18 +30,19 @@ public class Explosion : ISystem
                 if (i.Value.taille == explosionSize)
                 {
 
-                    //Debug.Log("taille5");
+
                     Position p = Composante.position[i.Key];
                     Vitesse v = Composante.vitesse[i.Key];
                     Hit h;
                     h.hit = false;
+                    Click c;
+                    c.click = false;
                     Vitesse v2;
                     v2.vitesse.x = -(v.vitesse.x);
                     v2.vitesse.y = -(v.vitesse.y);
                     Couleur couleur;
                     couleur.couleur = Color.blue;
-                    //Debug.Log(v.vitesse);
-                    //Debug.Log(v2.vitesse);
+
 
                     manager.DestroyShape(i.Key);
                     Composante.taille.Remove(i.Key);
@@ -67,6 +51,7 @@ public class Explosion : ISystem
                     Composante.couleur.Remove(i.Key);
                     Composante.protection.Remove(i.Key);
                     Composante.hit.Remove(i.Key);
+                    Composante.click.Remove(i.Key);
                     Debug.Log("taille5_2");
 
                     uint firstCircleId = StartUp.count;
@@ -83,6 +68,7 @@ public class Explosion : ISystem
                     Composante.vitesse.Add(firstCircleId, v);
                     Composante.hit.Add(firstCircleId, h);
                     Composante.couleur.Add(firstCircleId, couleur);
+                    Composante.click.Add(firstCircleId, c);
                     manager.CreateShape(firstCircleId, (int)taille1.taille);
                     manager.UpdateShapePosition(firstCircleId, p.position);
 
@@ -94,6 +80,7 @@ public class Explosion : ISystem
                     Composante.vitesse.Add(secondCircleId, v2);
                     Composante.hit.Add(secondCircleId, h);
                     Composante.couleur.Add(secondCircleId, couleur);
+                    Composante.click.Add(secondCircleId, c);
                     manager.CreateShape(secondCircleId, (int)taille2.taille);
                     manager.UpdateShapePosition(secondCircleId, p.position);
                 }

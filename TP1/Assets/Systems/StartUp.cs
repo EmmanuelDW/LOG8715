@@ -17,6 +17,7 @@ public class StartUp : ISystem
 
         UnityEngine.Random.InitState(manager.Config.seed);
         uint j = 0;
+
         if (firstFrame == true)
         {
 
@@ -57,6 +58,11 @@ public class StartUp : ISystem
                 Hit collision;
                 collision.hit = false;
                 Composante.hit.Add(j, collision);
+
+                //Clicked
+                Click click;
+                click.click = false;
+                Composante.click.Add(j, click);
 
                 j++;
                 firstFrame = false;
