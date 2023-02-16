@@ -41,6 +41,9 @@ public class Explosion : ISystem
                     v2.vitesse.y = -(v.vitesse.y);
                     Couleur couleur;
                     couleur.couleur = Color.blue;
+                    Protection prot;
+                    prot.cooldown = 0.0f;
+                    prot.timeleft = 0.0f;
 
 
                     manager.DestroyShape(i.Key);
@@ -51,6 +54,7 @@ public class Explosion : ISystem
                     Composante.protection.Remove(i.Key);
                     Composante.hit.Remove(i.Key);
                     Composante.click.Remove(i.Key);
+                    Composante.protection.Remove(i.Key);
                     Debug.Log("taille5_2");
 
                     uint firstCircleId = StartUp.count;
@@ -68,6 +72,7 @@ public class Explosion : ISystem
                     Composante.hit.Add(firstCircleId, h);
                     Composante.couleur.Add(firstCircleId, couleur);
                     Composante.click.Add(firstCircleId, c);
+                    Composante.protection.Add(firstCircleId, prot);
                     manager.CreateShape(firstCircleId, (int)taille1.taille);
                     manager.UpdateShapePosition(firstCircleId, p.position);
 
@@ -80,6 +85,7 @@ public class Explosion : ISystem
                     Composante.hit.Add(secondCircleId, h);
                     Composante.couleur.Add(secondCircleId, couleur);
                     Composante.click.Add(secondCircleId, c);
+                    Composante.protection.Add(secondCircleId, prot);
                     manager.CreateShape(secondCircleId, (int)taille2.taille);
                     manager.UpdateShapePosition(secondCircleId, p.position);
                 }

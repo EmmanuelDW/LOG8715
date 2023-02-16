@@ -59,27 +59,45 @@ public class Bounce : ISystem
                     {
                         if ((int)Composante.taille[entry1.Key].taille < (int)Composante.taille[entry2.Key].taille)
                         {
+                            if (Composante.protection[entry2.Key].timeleft == 0 && Composante.protection[entry1.Key].timeleft == 0)
+                            {
+                                taille1.taille = Composante.taille[entry1.Key].taille - 1f;
+                                Composante.taille[entry1.Key] = taille1;
+                                manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
 
-                            taille1.taille = Composante.taille[entry1.Key].taille - 1f;
-                            Composante.taille[entry1.Key] = taille1;
-                            manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
+                                taille2.taille = Composante.taille[entry2.Key].taille + 1f;
+                                Composante.taille[entry2.Key] = taille2;
+                                manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                            }
+                            if (Composante.protection[entry2.Key].timeleft == 0 && Composante.protection[entry1.Key].timeleft > 0)
+                            {
 
-                            taille2.taille = Composante.taille[entry2.Key].taille + 1f;
-                            Composante.taille[entry2.Key] = taille2;
-                            manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                                taille2.taille = Composante.taille[entry2.Key].taille - 1f;
+                                Composante.taille[entry2.Key] = taille2;
+                                manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                            }
 
                         }
                         else if ((int)Composante.taille[entry1.Key].taille > (int)Composante.taille[entry2.Key].taille)
                         {
-                            taille1.taille = Composante.taille[entry1.Key].taille + 1f;
-                            Composante.taille[entry1.Key] = taille1;
+                            if (Composante.protection[entry2.Key].timeleft == 0 && Composante.protection[entry1.Key].timeleft == 0)
+                            {
+                                taille1.taille = Composante.taille[entry1.Key].taille - 1f;
+                                Composante.taille[entry1.Key] = taille1;
+                                manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
 
-                            manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
+                                taille2.taille = Composante.taille[entry2.Key].taille + 1f;
+                                Composante.taille[entry2.Key] = taille2;
+                                manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
+                            }
+                            if (Composante.protection[entry2.Key].timeleft == 0 && Composante.protection[entry1.Key].timeleft > 0)
+                            {
+                                taille1.taille = Composante.taille[entry1.Key].taille - 1f;
+                                Composante.taille[entry1.Key] = taille1;
+                                manager.UpdateShapeSize(entry1.Key, Composante.taille[entry1.Key].taille);
 
+                            }
 
-                            taille2.taille = Composante.taille[entry2.Key].taille - 1f;
-                            Composante.taille[entry2.Key] = taille2;
-                            manager.UpdateShapeSize(entry2.Key, Composante.taille[entry2.Key].taille);
 
                         }
                     }
