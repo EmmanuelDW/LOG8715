@@ -20,7 +20,7 @@ public class Explosion : ISystem
     {
 
         Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
-        Debug.Log("Explosion");
+        //Debug.Log("Explosion");
 
 
 
@@ -43,7 +43,7 @@ public class Explosion : ISystem
             foreach (KeyValuePair<uint, Taille> i in taille)
             {
                 int explosionSize = manager.Config.explosionSize;
-                Debug.Log(explosionSize);
+                //Debug.Log(explosionSize);
                 if (i.Value.taille == explosionSize)
                 {
 
@@ -55,8 +55,10 @@ public class Explosion : ISystem
                     Vitesse v2;
                     v2.vitesse.x = -(v.vitesse.x);
                     v2.vitesse.y = -(v.vitesse.y);
-                    Debug.Log(v.vitesse);
-                    Debug.Log(v2.vitesse);
+                    Couleur couleur;
+                    couleur.couleur = Color.blue;
+                    //Debug.Log(v.vitesse);
+                    //Debug.Log(v2.vitesse);
 
                     manager.DestroyShape(i.Key);
                     Composante.taille.Remove(i.Key);
@@ -65,7 +67,7 @@ public class Explosion : ISystem
                     Composante.couleur.Remove(i.Key);
                     Composante.protection.Remove(i.Key);
                     Composante.hit.Remove(i.Key);
-                    //Debug.Log("taille5_2");
+                    Debug.Log("taille5_2");
 
                     uint firstCircleId = StartUp.count;
                     StartUp.count++;
@@ -80,6 +82,7 @@ public class Explosion : ISystem
                     Composante.position.Add(firstCircleId, p);
                     Composante.vitesse.Add(firstCircleId, v);
                     Composante.hit.Add(firstCircleId, h);
+                    Composante.couleur.Add(firstCircleId, couleur);
                     manager.CreateShape(firstCircleId, (int)taille1.taille);
                     manager.UpdateShapePosition(firstCircleId, p.position);
 
@@ -89,7 +92,8 @@ public class Explosion : ISystem
                     Composante.taille.Add(secondCircleId, taille2);
                     Composante.position.Add(secondCircleId, p);
                     Composante.vitesse.Add(secondCircleId, v2);
-                    Composante.hit.Add(firstCircleId, h);
+                    Composante.hit.Add(secondCircleId, h);
+                    Composante.couleur.Add(secondCircleId, couleur);
                     manager.CreateShape(secondCircleId, (int)taille2.taille);
                     manager.UpdateShapePosition(secondCircleId, p.position);
                 }

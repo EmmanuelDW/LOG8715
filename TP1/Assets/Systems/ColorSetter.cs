@@ -17,24 +17,12 @@ public class ColorSetter : ISystem
 
 
         Dictionary<uint, Hit> h = new Dictionary<uint, Hit>(Composante.hit);
-        foreach (KeyValuePair<uint,Hit> pair in h)
+        foreach (KeyValuePair<uint, Hit> pair in h)
         {
-
-            if (Composante.vitesse[pair.Key].vitesse == statique)
-            {
-                couleur.couleur = Color.red;
-                Composante.couleur.Add(pair.Key, couleur);
-                manager.UpdateShapeColor(pair.Key, Color.red);
-            }
-            else if (Composante.hit[pair.Key].hit == false)
-            {
-                couleur.couleur = Color.blue;
-                Composante.couleur.Add(pair.Key, couleur);
-                manager.UpdateShapeColor(pair.Key, Color.blue);
-            }
             if (Composante.hit[pair.Key].hit == false)
             {
-                if (Composante.taille[pair.Key].taille == explosionSize - 1) {
+                if (Composante.taille[pair.Key].taille == explosionSize - 1)
+                {
                     couleur.couleur = orange;
                     manager.UpdateShapeColor(pair.Key, couleur.couleur);
                     Composante.couleur[pair.Key] = couleur;
@@ -45,26 +33,17 @@ public class ColorSetter : ISystem
                     manager.UpdateShapeColor(pair.Key, couleur.couleur);
                     Composante.couleur[pair.Key] = couleur;
                 }
-                
+
             }
             if (Composante.hit[pair.Key].hit == true)
             {
-                
+
                 couleur.couleur = Color.green;
                 manager.UpdateShapeColor(pair.Key, couleur.couleur);
                 Composante.couleur[pair.Key] = couleur;
                 Composante.hit[pair.Key] = hit;
             }
-            //if (Composante.taille[pair.Key].taille == manager.Config.explosionSize-1)
-            //{
-            //    couleur.couleur = orange;
-            //    manager.UpdateShapeColor(pair.Key, orange);
-            //    Composante.couleur[pair.Key] = couleur;
-                
-            //}
-
         }
     }
-    public string Name { get { return "Bounce"; } }
+    public string Name { get { return "ColorSetter"; } }
 }
-
