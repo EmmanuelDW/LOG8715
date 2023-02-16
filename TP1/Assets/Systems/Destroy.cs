@@ -8,7 +8,7 @@ public class Destroy : ISystem
     public void UpdateSystem()
     {
 
-        Debug.Log("Explosion");
+        //Debug.Log("Explosion");
 
         Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
 
@@ -22,6 +22,7 @@ public class Destroy : ISystem
                 Composante.vitesse.Remove(i.Key);
                 Composante.couleur.Remove(i.Key);
                 Composante.protection.Remove(i.Key);
+                Composante.hit.Remove(i.Key);
             }
 
         }
