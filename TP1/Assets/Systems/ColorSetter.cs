@@ -36,9 +36,9 @@ public class ColorSetter : ISystem
                 }
                 else
                 {
-                    if(Composante.hit[pair.Key].hit == true)
+                    if(Composante.click[pair.Key].click == true)
                     {
-                        priority = "Click";
+                        priority = "DynamiqueClick";
                     }
                     else
                     {

@@ -41,7 +41,7 @@ public class Explosion : ISystem
                         Hit h;
                         h.hit = false;
                         Click c;
-                        c.click = false;
+                        c.click = true;
                         Protection protection;
                         protection.cooldown = 0f;
                         protection.timeleft = 0f;
