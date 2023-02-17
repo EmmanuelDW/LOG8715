@@ -77,16 +77,17 @@ public class ClickCircle : ISystem
                         manager.CreateShape(secondCircleId, (int)taille2.taille);
                         manager.UpdateShapePosition(secondCircleId, p.Value.position);
 
+                        manager.DestroyShape(p.Key);
+                        Composante.taille.Remove(p.Key);
+                        Composante.position.Remove(p.Key);
+                        Composante.vitesse.Remove(p.Key);
+                        Composante.couleur.Remove(p.Key);
+                        Composante.protection.Remove(p.Key);
+                        Composante.hit.Remove(p.Key);
+                        Composante.click.Remove(p.Key);
 
                     }
-                    manager.DestroyShape(p.Key);
-                    Composante.taille.Remove(p.Key);
-                    Composante.position.Remove(p.Key);
-                    Composante.vitesse.Remove(p.Key);
-                    Composante.couleur.Remove(p.Key);
-                    Composante.protection.Remove(p.Key);
-                    Composante.hit.Remove(p.Key);
-                    Composante.click.Remove(p.Key);
+
 
                 }
             }
