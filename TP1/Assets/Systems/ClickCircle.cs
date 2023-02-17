@@ -87,8 +87,12 @@ public class ClickCircle : ISystem
                         Composante.click.Remove(p.Key);
 
                     }
-
-
+                    else
+                    {
+                        Click c;
+                        c.click = true;
+                        Composante.click[p.Key] = c;
+                    }
                 }
             }
         }

@@ -30,13 +30,13 @@ public class Explosion : ISystem
                     Click c;
                     c.click = false;
                     Vitesse v2;
-                    Protection protection;
-                    protection.cooldown = 0f;
-                    protection.timeleft = 0f;
                     v2.vitesse.x = -(v.vitesse.x);
                     v2.vitesse.y = -(v.vitesse.y);
                     Couleur couleur;
                     couleur.couleur = Color.blue;
+                    Protection prot;
+                    prot.cooldown = 0.0f;
+                    prot.timeleft = 0.0f;
 
 
                     manager.DestroyShape(i.Key);
@@ -44,7 +44,6 @@ public class Explosion : ISystem
                     Composante.position.Remove(i.Key);
                     Composante.vitesse.Remove(i.Key);
                     Composante.couleur.Remove(i.Key);
-                    Composante.protection.Remove(i.Key);
                     Composante.hit.Remove(i.Key);
                     Composante.click.Remove(i.Key);
                     Composante.protection.Remove(i.Key);
@@ -61,11 +60,11 @@ public class Explosion : ISystem
                     taille1.taille = explosionSize / 2;
                     Composante.taille.Add(firstCircleId, taille1);
                     Composante.position.Add(firstCircleId, p);
-                    Composante.protection.Add(firstCircleId, protection);
                     Composante.vitesse.Add(firstCircleId, v);
                     Composante.hit.Add(firstCircleId, h);
                     Composante.couleur.Add(firstCircleId, couleur);
                     Composante.click.Add(firstCircleId, c);
+                    Composante.protection.Add(firstCircleId, prot);
                     manager.CreateShape(firstCircleId, (int)taille1.taille);
                     manager.UpdateShapePosition(firstCircleId, p.position);
 
@@ -74,11 +73,11 @@ public class Explosion : ISystem
                     taille2.taille = explosionSize / 2;
                     Composante.taille.Add(secondCircleId, taille2);
                     Composante.position.Add(secondCircleId, p);
-                    Composante.protection.Add(secondCircleId, protection);
                     Composante.vitesse.Add(secondCircleId, v2);
                     Composante.hit.Add(secondCircleId, h);
                     Composante.couleur.Add(secondCircleId, couleur);
                     Composante.click.Add(secondCircleId, c);
+                    Composante.protection.Add(secondCircleId, prot);
                     manager.CreateShape(secondCircleId, (int)taille2.taille);
                     manager.UpdateShapePosition(secondCircleId, p.position);
                 }
