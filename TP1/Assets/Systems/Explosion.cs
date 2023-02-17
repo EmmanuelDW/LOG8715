@@ -14,12 +14,10 @@ public class Explosion : ISystem
     {
 
         Dictionary<uint, Taille> taille = new Dictionary<uint, Taille>(Composante.taille);
-        //Debug.Log("Explosion");
         foreach (KeyValuePair<uint, Taille> i in taille)
         {
  
                 int explosionSize = manager.Config.explosionSize;
-                //Debug.Log(explosionSize);
                 if (i.Value.taille == explosionSize)
                 {
 
@@ -47,7 +45,6 @@ public class Explosion : ISystem
                     Composante.hit.Remove(i.Key);
                     Composante.click.Remove(i.Key);
                     Composante.protection.Remove(i.Key);
-                    Debug.Log("taille5_2");
 
                     uint firstCircleId = StartUp.count;
                     StartUp.count++;

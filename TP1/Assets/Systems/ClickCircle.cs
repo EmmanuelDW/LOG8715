@@ -15,12 +15,9 @@ public class ClickCircle : ISystem
         Dictionary<uint, Position> position = new Dictionary<uint, Position>(Composante.position);
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("click2");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-            //Debug.Log(ray);
             Vector2 pos = (Vector2)ray.origin;
-            Debug.Log(pos);
             foreach (KeyValuePair<uint, Position> p in position)
             {
                 if (pos.x <= p.Value.position.x + (Composante.taille[p.Key].taille / 2)
@@ -28,10 +25,8 @@ public class ClickCircle : ISystem
                     && pos.y <= p.Value.position.y + (Composante.taille[p.Key].taille / 2)
                     && pos.y >= p.Value.position.y - (Composante.taille[p.Key].taille / 2))
                 {
-                    Debug.Log(p.Key);
                     if (Composante.taille[p.Key].taille >= 2)
                     {
-                        Debug.Log(Composante.taille[p.Key].taille);
                         Vitesse v = Composante.vitesse[p.Key];
                         Hit h;
                         h.hit = false;

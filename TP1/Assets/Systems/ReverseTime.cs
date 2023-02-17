@@ -36,7 +36,7 @@ public class ReverseTime : ISystem
         //Retour 3 secondes dans le pass�
         if (Input.GetKey(KeyCode.Space) == true && cooldownReverse!= 0f)
         {
-            Debug.Log("Le retour en arri�re est en cooldown");
+            Debug.Log("Le retour en arri�re est en cooldown" + cooldownReverse);
         }
 
         if (Input.GetKey(KeyCode.Space) == true && cooldownReverse == 0f)

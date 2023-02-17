@@ -53,7 +53,6 @@ public class ColorSetter : ISystem
                             //priority = "Dynamique";
                             if (Composante.protection[pair.Key].timeleft > 0f)
                             {
-                                Debug.Log("entre dans couleur protect");
                                 priority = "Protection";
                             }
                             else
