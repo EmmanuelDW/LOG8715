@@ -9,80 +9,41 @@ public class Protect : ISystem
     {
         Couleur couleurProtection;
         couleurProtection.couleur = Color.yellow;
-        Protection protection;
-        protection.cooldown = 0f;
-        protection.timeleft = 0f;
 
-        string etatProtection;
         Dictionary<uint, Protection> temp = new Dictionary<uint, Protection>(Composante.protection);
-        Debug.Log("entre dans protect");
-        
         foreach (KeyValuePair<uint, Protection> pair in temp)
         {
 
-            Debug.Log("entre dans protect boucle");
-            if (Composante.protection[pair.Key].cooldown == 0f && Composante.protection[pair.Key].timeleft == 0f)
+            if (UnityEngine.Random.value < manager.Config.protectionProbability && pair.Value.timeleft == 0 && pair.Value.cooldown == 0)
             {
-                etatProtection = "Inactif";
+
+                Protection p;
+                p.cooldown = 0f;
+                p.timeleft = manager.Config.protectionDuration/Time.deltaTime;
+                Composante.protection[pair.Key] = p;
+
             }
-            else
+            if ( pair.Value.timeleft > 0)
             {
-                if (Composante.protection[pair.Key].cooldown != 0f && Composante.protection[pair.Key].timeleft == 0f)
+                Protection p;
+                p.timeleft = pair.Value.timeleft - 1;
+                p.cooldown = 0;
+                if (p.timeleft == 0)
                 {
-                    etatProtection = "Cooldown";
+                    p.cooldown = manager.Config.protectionCooldown / Time.deltaTime;
                 }
-                else
-                {
-                    etatProtection = "Actif";
-                }
-            }
- 
-            
-            
+                Composante.protection[pair.Key] = p;
 
-            switch (etatProtection)
+            }
+            if (pair.Value.cooldown > 0)
             {
-                case "Inactif":
-                    
-                    float random = UnityEngine.Random.value;
-                    Debug.Log("entre dans inactif");
-                    if (random <= manager.Config.protectionProbability)
-                    {
-                        protection.timeleft = manager.Config.protectionDuration;
-                        Debug.Log(protection.timeleft);
-                        protection.cooldown = manager.Config.protectionCooldown;
-                        Composante.protection[pair.Key] = protection;
+                Protection p;
+                p.timeleft = pair.Value.timeleft;
+                p.cooldown = pair.Value.cooldown - 1; ;
+                Composante.protection[pair.Key] = p;
 
-                    }
-                    break;
-
-                case "Cooldown":
-
-                    Debug.Log("entre dans protect cooldown");
-                    protection.cooldown -= Time.deltaTime;
-                    if (protection.cooldown < 0f)
-                    {
-                        protection.cooldown = 0f;
-                        
-                    }
-
-                    break;
-
-                case "Actif":
-                    Debug.Log("entre dans protect actif");
-
-                    protection.timeleft -= Time.deltaTime;
-                    if (protection.timeleft < 0f)
-                    {
-                        protection.timeleft = 0f;
-
-                    }
-                    break;
-
-                
             }
 
-            
         }   
     }
 
