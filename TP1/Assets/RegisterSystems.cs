@@ -13,6 +13,7 @@ public class RegisterSystems
             new Bounce(),
             new WallBounce(),
             new Explosion(),
+            new ClickCircle(),
             new Destroy(),
             new ColorSetter(),
             //new ReverseTime(),
