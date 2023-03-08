@@ -7,9 +7,11 @@ using UnityEngine;
 using InnerType = System.Collections.Generic.Dictionary<uint, IComponent>;
 using AllComponents = System.Collections.Generic.Dictionary<uint, System.Collections.Generic.Dictionary<uint, IComponent>>;
 #else
-using InnerType = ...; // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
-using AllComponents = ...; // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
+using InnerType =  // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
+using AllComponents =  // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
 #endif
+
+
 
 // Appeler GetHashCode sur un Type est couteux. Cette classe sert a precalculer le hashcode
 public static class TypeRegistry<T> where T : IComponent
