@@ -3,10 +3,12 @@ using UnityEngine.Serialization;
 
 public class Circle : MonoBehaviour
 {
-    [FormerlySerializedAs("I")] [HideInInspector]
+    [FormerlySerializedAs("I")]
+    [HideInInspector]
     public int i;
 
-    [FormerlySerializedAs("J")] [HideInInspector]
+    [FormerlySerializedAs("J")]
+    [HideInInspector]
     public int j;
 
     public float Health { get; private set; }
@@ -16,10 +18,16 @@ public class Circle : MonoBehaviour
     private const float HealingPerSecond = 1;
     private const float HealingRange = 3;
 
+    private SpriteRenderer _spriteRenderer;
+    private Grid _grid;
+    private Collider2D[] _nearbyColliders = new Collider2D[13];
+
     // Start is called before the first frame update
     private void Start()
     {
         Health = BaseHealth;
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        _grid = GameObject.FindObjectOfType<Grid>();
     }
 
     // Update is called once per frame
@@ -31,22 +39,27 @@ public class Circle : MonoBehaviour
 
     private void UpdateColor()
     {
-        var grid = GameObject.FindObjectOfType<Grid>();
-        var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.color = grid.Colors[i, j] * Health / BaseHealth;
+        _spriteRenderer.color = _grid.Colors[i, j] * Health / BaseHealth;
     }
 
     private void HealNearbyShapes()
     {
-        var nearbyColliders = Physics2D.OverlapCircleAll(transform.position, HealingRange);
-        foreach (var nearbyCollider in nearbyColliders)
+        var count = Physics2D.OverlapCircleNonAlloc(transform.position, HealingRange, _nearbyColliders);
+        var healingPerFrame = HealingPerSecond * Time.deltaTime;
+        for (int i = 0; i < count; i++)
         {
-            if (nearbyCollider != null && nearbyCollider.TryGetComponent<Circle>(out var circle))
+            if (_nearbyColliders[i] == null)
+                continue;
+
+            var circle = _nearbyColliders[i].GetComponent<Circle>();
+            if (circle != null)
             {
-                circle.ReceiveHp(HealingPerSecond * Time.deltaTime);
+                circle.ReceiveHp(healingPerFrame);
             }
         }
     }
+
+
 
     public void ReceiveHp(float hpReceived)
     {

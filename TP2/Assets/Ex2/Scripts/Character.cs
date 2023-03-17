@@ -14,6 +14,8 @@ public class Character : MonoBehaviour
 
     private const float DamageRange = 10;
 
+    private Collider2D[] _nearbyColliders = new Collider2D[16];
+
     private void Update()
     {
         Move();
@@ -34,10 +36,13 @@ public class Character : MonoBehaviour
     private void UpdateAcceleration()
     {
         var direction = Vector3.zero;
-        var nearbyColliders = Physics2D.OverlapCircleAll(transform.position, DamageRange);
-        foreach (var nearbyCollider in nearbyColliders)
+        var count = Physics2D.OverlapCircleNonAlloc(transform.position, DamageRange, _nearbyColliders);
+
+        for (int i = 0; i < count; i++)
         {
-            if (nearbyCollider.TryGetComponent<Circle>(out var circle))
+            var nearbyCollider = _nearbyColliders[i];
+
+            if (nearbyCollider != null && nearbyCollider.TryGetComponent<Circle>(out var circle))
             {
                 direction += (circle.transform.position - transform.position) * circle.Health;
             }
@@ -45,6 +50,26 @@ public class Character : MonoBehaviour
         _acceleration = direction.normalized * AccelerationMagnitude;
     }
 
+    //private void DamageNearbyShapes()
+    //{
+    //    var count = Physics2D.OverlapCircleNonAlloc(transform.position, DamageRange, _nearbyColliders);
+
+    //    // Si aucun cercle proche, on retourne a (0,0,0)
+    //    if (count == 0)
+    //    {
+    //        transform.position = Vector3.zero;
+    //    }
+
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        var nearbyCollider = _nearbyColliders[i];
+
+    //        if (nearbyCollider != null && nearbyCollider.TryGetComponent<Circle>(out var circle))
+    //        {
+    //            circle.ReceiveHp(-DamagePerSecond * Time.deltaTime);
+    //        }
+    //    }
+    //}
     private void DamageNearbyShapes()
     {
         var nearbyColliders = Physics2D.OverlapCircleAll(transform.position, DamageRange);
@@ -55,7 +80,7 @@ public class Character : MonoBehaviour
             transform.position = Vector3.zero;
         }
 
-        foreach(var nearbyCollider in nearbyColliders)
+        foreach (var nearbyCollider in nearbyColliders)
         {
             if (nearbyCollider.TryGetComponent<Circle>(out var circle))
             {
