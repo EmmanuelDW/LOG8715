@@ -57,8 +57,8 @@ public class Ex4Spawner : MonoBehaviour
         }
 
         PreyTransforms = new Transform[config.preyCount];
-        PreyLifetimes = new Lifetime[config.plantCount];
-        PreyVelocities = new Velocity[config.plantCount];
+        PreyLifetimes = new Lifetime[config.preyCount];
+        PreyVelocities = new Velocity[config.preyCount];
         for (var i = 0; i < config.preyCount; i++)
         {
             var go = Create(preyPrefab);
@@ -68,8 +68,8 @@ public class Ex4Spawner : MonoBehaviour
         }
         
         PredatorTransforms = new Transform[config.predatorCount];
-        PredatorLifetimes = new Lifetime[config.plantCount];
-        PredatorVelocities = new Velocity[config.plantCount];
+        PredatorLifetimes = new Lifetime[config.predatorCount];
+        PredatorVelocities = new Velocity[config.predatorCount];
         for (var i = 0; i < config.predatorCount; i++)
         {
             var go = Create(predatorPrefab);
