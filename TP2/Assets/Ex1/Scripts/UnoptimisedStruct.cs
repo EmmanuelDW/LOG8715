@@ -4,6 +4,7 @@ public struct UnoptimisedStruct1
     public UnoptimizedStruct2 mainFriend;
     public UnoptimizedStruct2[] otherFriends;
 
+    public double range;
     public float velocity;
     public float size;
     public int baseHP;
@@ -11,7 +12,7 @@ public struct UnoptimisedStruct1
     public Vector3 position;
     public int currentHp;
     public float[] distancesFromObjectives;
-    public double range;
+    
 
 
     public byte colorAlpha;
