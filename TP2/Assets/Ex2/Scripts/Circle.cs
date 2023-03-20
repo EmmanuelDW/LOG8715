@@ -21,6 +21,7 @@ public class Circle : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Grid _grid;
     private readonly Collider2D[] _nearbyColliders = new Collider2D[13];
+    private Circle[] _circles = new Circle[13]; 
 
     // Start is called before the first frame update
     private void Start()
@@ -28,6 +29,10 @@ public class Circle : MonoBehaviour
         Health = BaseHealth;
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         _grid = GameObject.FindObjectOfType<Grid>();
+        
+        for (var k = 0; k < _nearbyColliders.Length; k++)
+            _circles[k] = _nearbyColliders[k].GetComponent<Circle>();
+
     }
 
     // Update is called once per frame
@@ -50,8 +55,8 @@ public class Circle : MonoBehaviour
         {
             if (!_nearbyColliders[i])
                 continue;
-
-            var circle = _nearbyColliders[i].GetComponent<Circle>();
+            
+            var circle = _circles[i];
             if (circle)
             {
                 circle.ReceiveHp(healingPerFrame);
