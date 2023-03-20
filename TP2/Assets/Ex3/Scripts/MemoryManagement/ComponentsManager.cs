@@ -1,4 +1,4 @@
-﻿#define BAD_PERF // TODO CHANGEZ MOI. Mettre en commentaire pour utiliser votre propre structure
+﻿/*#define BAD_PERF*/ // TODO CHANGEZ MOI. Mettre en commentaire pour utiliser votre propre structure
 
 using System;
 using UnityEngine;
@@ -7,8 +7,8 @@ using UnityEngine;
 using InnerType = System.Collections.Generic.Dictionary<uint, IComponent>;
 using AllComponents = System.Collections.Generic.Dictionary<uint, System.Collections.Generic.Dictionary<uint, IComponent>>;
 #else
-using InnerType = ComponentContainer<IComponent>; // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
-using AllComponents = System.Collections.Generic.Dictionary<uint,ComponentContainer<IComponent>>;
+using InnerType = ComponentArray<IComponent>; // TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
+using AllComponents = System.Collections.Generic.Dictionary<uint, ComponentArray<IComponent>>;// TODO CHANGEZ MOI, UTILISEZ VOTRE PROPRE TYPE ICI
 #endif
 
 // Appeler GetHashCode sur un Type est couteux. Cette classe sert a precalculer le hashcode
@@ -50,17 +50,17 @@ internal class ComponentsManager : Singleton<ComponentsManager>
         {
             toPrint += $"{type}: \n";
 #if !BAD_PERF
-            
-#else
-            foreach (var component in type.Value)
-#endif
-            {
-#if BAD_PERF
-                toPrint += $"\t{component.Key}: {component.Value}\n";
-#else
-                
-#endif
-            }
+//            foreach (var component in type)
+//#else
+//            foreach (var component in type.Value)
+//#endif
+//            {
+//#if BAD_PERF
+//                toPrint += $"\t{component.Key}: {component.Value}\n";
+//#else
+//                toPrint += $"\t{component}: {component}\n";
+//#endif
+//            }
             toPrint += "\n";
         }
         Debug.Log(toPrint);
@@ -85,7 +85,8 @@ internal class ComponentsManager : Singleton<ComponentsManager>
     }
     public bool TryGetComponent<T>(EntityComponent entityID, out T component) where T : IComponent
     {
-        if (_allComponents.ContainsKey(TypeRegistry<T>.typeID))
+        uint typeId = TypeRegistry<T>.typeID;
+        if (_allComponents.ContainsKey(typeId))
         {
             if (_allComponents[TypeRegistry<T>.typeID].ContainsKey(entityID))
             {
@@ -119,6 +120,7 @@ internal class ComponentsManager : Singleton<ComponentsManager>
         var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID].Values;
         foreach (EntityComponent entity in allEntities)
         {
+
             if (!_allComponents[TypeRegistry<T1>.typeID].ContainsKey(entity))
             {
                 continue;
@@ -129,8 +131,8 @@ internal class ComponentsManager : Singleton<ComponentsManager>
 
     public void ForEach<T1, T2>(Action<EntityComponent, T1, T2> lambda) where T1 : IComponent where T2 : IComponent
     {
-        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID].Values;
-        foreach (EntityComponent entity in allEntities)
+        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID];
+        for (uint entity = 0; entity < allEntities.Len(); entity++)
         {
             if (!_allComponents[TypeRegistry<T1>.typeID].ContainsKey(entity) ||
                 !_allComponents[TypeRegistry<T2>.typeID].ContainsKey(entity)
@@ -144,8 +146,8 @@ internal class ComponentsManager : Singleton<ComponentsManager>
 
     public void ForEach<T1, T2, T3>(Action<EntityComponent, T1, T2, T3> lambda) where T1 : IComponent where T2 : IComponent where T3 : IComponent
     {
-        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID].Values;
-        foreach (EntityComponent entity in allEntities)
+        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID];
+        for (uint entity=0; entity<allEntities.Len();entity++)
         {
             if (!_allComponents[TypeRegistry<T1>.typeID].ContainsKey(entity) ||
                 !_allComponents[TypeRegistry<T2>.typeID].ContainsKey(entity) ||
@@ -160,8 +162,8 @@ internal class ComponentsManager : Singleton<ComponentsManager>
 
     public void ForEach<T1, T2, T3, T4>(Action<EntityComponent, T1, T2, T3, T4> lambda) where T1 : IComponent where T2 : IComponent where T3 : IComponent where T4 : IComponent
     {
-        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID].Values;
-        foreach (EntityComponent entity in allEntities)
+        var allEntities = _allComponents[TypeRegistry<EntityComponent>.typeID];
+        for (uint entity = 0; entity < allEntities.Len(); entity++)
         {
             if (!_allComponents[TypeRegistry<T1>.typeID].ContainsKey(entity) ||
                 !_allComponents[TypeRegistry<T2>.typeID].ContainsKey(entity) ||
@@ -172,7 +174,8 @@ internal class ComponentsManager : Singleton<ComponentsManager>
                 continue;
             }
             lambda(entity, (T1)_allComponents[TypeRegistry<T1>.typeID][entity], (T2)_allComponents[TypeRegistry<T2>.typeID][entity], (T3)_allComponents[TypeRegistry<T3>.typeID][entity], (T4)_allComponents[TypeRegistry<T4>.typeID][entity]);
-        }
+        }; 
+        
     }
 
     public AllComponents DebugGetAllComponents()
@@ -180,3 +183,4 @@ internal class ComponentsManager : Singleton<ComponentsManager>
         return _allComponents;
     }
 }
+#endif
