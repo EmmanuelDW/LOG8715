@@ -42,7 +42,7 @@ public class Character : MonoBehaviour
         {
             var nearbyCollider = _nearbyColliders[i];
 
-            if (nearbyCollider != null && nearbyCollider.TryGetComponent<Circle>(out var circle))
+            if (nearbyCollider && nearbyCollider.TryGetComponent<Circle>(out var circle))
             {
                 direction += (circle.transform.position - transform.position) * circle.Health;
             }
