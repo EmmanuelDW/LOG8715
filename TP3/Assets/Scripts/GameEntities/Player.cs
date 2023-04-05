@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
     [SerializeField]
-    private float m_Velocity;
+    public float m_Velocity;
 
     [SerializeField]
     private float m_Size = 1;
-
+    
     private GameState m_GameState;
 
     // GameState peut etre nul si l'entite joueur est instanciee avant de charger MainScene
@@ -35,6 +36,7 @@ public class Player : NetworkBehaviour
     private void Awake()
     {
         m_GameState = FindObjectOfType<GameState>();
+        
     }
 
     private void FixedUpdate()
@@ -118,6 +120,8 @@ public class Player : NetworkBehaviour
         m_InputQueue.Enqueue(input);
     }
 
+    
+    
 
 
 }
