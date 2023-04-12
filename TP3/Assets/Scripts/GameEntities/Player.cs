@@ -10,9 +10,9 @@ public class Player : NetworkBehaviour
     public float m_Velocity;
 
     [SerializeField]
-    private float m_Size = 1;
+    public float m_Size = 1;
     
-    private GameState m_GameState;
+    public GameState m_GameState;
 
     // GameState peut etre nul si l'entite joueur est instanciee avant de charger MainScene
     private GameState GameState
