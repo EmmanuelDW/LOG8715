@@ -25,7 +25,21 @@ public class GameState : NetworkBehaviour
     private Coroutine m_StunCoroutine;
 
     private float m_CurrentRtt;
-
+    // info sur les tick rate
+    public NetworkVariable<uint> ServerTickRate;
+    public NetworkVariable<int> ServerTick;
+    public uint localTickRate
+    {
+        get => NetworkUtility.GetLocalTickRate();
+    } 
+    public int localTick
+    {
+        get => NetworkUtility.GetLocalTick();
+    }
+    public ulong localRTT
+    {
+        get => NetworkUtility.GetCurrentRtt(OwnerClientId);
+    }
     public float CurrentRTT { get => m_CurrentRtt / 1000f; }
 
     public NetworkVariable<float> ServerTime;
@@ -33,6 +47,8 @@ public class GameState : NetworkBehaviour
     private void Start()
     {
         m_GameArea.transform.localScale = new Vector3(m_GameSize.x * 2, m_GameSize.y * 2, 1);
+
+
     }
 
     private void FixedUpdate()
@@ -45,6 +61,8 @@ public class GameState : NetworkBehaviour
         if (IsServer)
         {
             ServerTime.Value = Time.time;
+            ServerTickRate.Value = localTickRate;
+            ServerTick.Value = localTick;
         }
     }
 

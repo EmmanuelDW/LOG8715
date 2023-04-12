@@ -32,7 +32,8 @@ public class Player : NetworkBehaviour
     public Vector2 Position => m_Position.Value;
 
     private Queue<Vector2> m_InputQueue = new Queue<Vector2>();
-
+    
+    
     private void Awake()
     {
         m_GameState = FindObjectOfType<GameState>();
