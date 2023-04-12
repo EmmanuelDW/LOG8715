@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using Unity.Netcode;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
     [SerializeField]
-    private float m_Velocity;
+    public float m_Velocity;
 
     [SerializeField]
     private float m_Size = 1;
-
+    
     private GameState m_GameState;
 
     // GameState peut etre nul si l'entite joueur est instanciee avant de charger MainScene
@@ -31,10 +32,12 @@ public class Player : NetworkBehaviour
     public Vector2 Position => m_Position.Value;
 
     private Queue<Vector2> m_InputQueue = new Queue<Vector2>();
-
+    
+    
     private void Awake()
     {
         m_GameState = FindObjectOfType<GameState>();
+        
     }
 
     private void FixedUpdate()
@@ -118,6 +121,8 @@ public class Player : NetworkBehaviour
         m_InputQueue.Enqueue(input);
     }
 
+    
+    
 
 
 }

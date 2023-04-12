@@ -1,5 +1,6 @@
 ﻿using Unity.Netcode;
 
+
 public class NetworkUtility
 {
     public static int GetLocalTick()
