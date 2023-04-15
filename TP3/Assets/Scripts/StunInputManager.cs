@@ -15,6 +15,7 @@ public class StunInputManager : NetworkBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                
                 ActivateStunServerRpc();
             }
         }

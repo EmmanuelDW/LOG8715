@@ -11,7 +11,7 @@ public class GameState : NetworkBehaviour
     private GameObject m_GameArea;
 
     [SerializeField]
-    private float m_StunDuration = 1.0f;
+    public float m_StunDuration = 1.0f;
 
     [SerializeField]
     private Vector2 m_GameSize;
@@ -19,12 +19,17 @@ public class GameState : NetworkBehaviour
     public Vector2 GameSize { get => m_GameSize; }
 
     private NetworkVariable<bool> m_IsStunned = new NetworkVariable<bool>();
-
+    
     public bool IsStunned { get => m_IsStunned.Value; }
-
+    
     private Coroutine m_StunCoroutine;
+    private Coroutine m_StunCoroutineLocal;
 
-    private float m_CurrentRtt;
+    public bool m_stunnedLocal;
+    private float m_stuntimerLocal;
+    
+    
+    public float m_CurrentRtt;
     // info sur les tick rate
     public NetworkVariable<uint> ServerTickRate;
     public NetworkVariable<int> ServerTick;
@@ -47,8 +52,34 @@ public class GameState : NetworkBehaviour
     private void Start()
     {
         m_GameArea.transform.localScale = new Vector3(m_GameSize.x * 2, m_GameSize.y * 2, 1);
+        m_stunnedLocal = false;
+        m_stuntimerLocal = 0f;
 
+    }
 
+    private void Update()
+    {
+        if (IsClient)
+        {
+            if (m_stunnedLocal)
+            {
+                if (m_stuntimerLocal < 0f)
+                {
+                    m_stunnedLocal = false;
+                    m_stuntimerLocal = 0f;
+                }
+                else
+                {
+                    m_stuntimerLocal -= Time.deltaTime;
+                }
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                m_stunnedLocal = true;
+                m_stuntimerLocal = m_StunDuration;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -95,6 +126,7 @@ public class GameState : NetworkBehaviour
         {
             m_StunCoroutine = StartCoroutine(StunCoroutine());
         }
+        
     }
 
     private IEnumerator StunCoroutine()
@@ -103,4 +135,7 @@ public class GameState : NetworkBehaviour
         yield return new WaitForSeconds(m_StunDuration);
         m_IsStunned.Value = false;
     }
+
+
 }
+

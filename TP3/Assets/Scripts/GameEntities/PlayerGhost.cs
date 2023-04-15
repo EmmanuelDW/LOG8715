@@ -48,6 +48,7 @@ public class PlayerGhost : NetworkBehaviour
     }
     private void Update()
     {
+        //Debug.Log(m_GameState.m_CurrentRtt);
        
         if (IsServer)
         {
@@ -56,6 +57,11 @@ public class PlayerGhost : NetworkBehaviour
         
         if (IsClient)
         {
+            if (m_GameState.m_stunnedLocal)
+            {
+                return;
+            }
+                
             serverTick = m_GameState.ServerTick.Value;
             
             positionLocal = (Vector2)transform.position + (InputCollecting() * (m_Player.m_Velocity * Time.deltaTime));

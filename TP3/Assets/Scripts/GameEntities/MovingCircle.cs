@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovingCircle : NetworkBehaviour
 {
     [SerializeField]
-    private float m_Radius = 1;
+    public float m_Radius = 1;
 
     public Vector2 Position => m_Position.Value;
 
@@ -18,7 +18,7 @@ public class MovingCircle : NetworkBehaviour
     private NetworkVariable<Vector2> m_Position = new NetworkVariable<Vector2>();
     private NetworkVariable<Vector2> m_Velocity = new NetworkVariable<Vector2>();
 
-    private GameState m_GameState;
+    public GameState m_GameState;
 
     private void Awake()
     {
