@@ -60,46 +60,32 @@ public class PlayerGhost : NetworkBehaviour
                 return;
             }
 
-            positionLocal = (Vector2)transform.position + (InputCollecting() * (m_Player.m_Velocity * Time.deltaTime));
-            
+            Vector2 inputDirection = InputCollecting();
+            if (inputDirection != Vector2.zero)
+            {
+                positionLocal += inputDirection.normalized * (m_Player.m_Velocity * Time.deltaTime);
+            }
+
             //Wall collision check
             WallCollision();
-            
+
             //Ajout de la position au registre
             positionRegistery.Add(positionLocal);
             tickRegistery.Add(m_GameState.localTick);
-            // if (lastTickChecked == m_Player.m_ClientTick.Value)
-            // {
-            //     transform.position = positionRegistery[0];
-            //     return;
-            // }
-            
+
+            // Nettoyage des positions anciennes dans le registre
+            RegisteryCleanUp();
+
+            // Réconciliation avec le serveur si la différence est importante
             diffrence = DiffrenceVector();
-            if (diffrence.magnitude > 1)
+            if (diffrence.magnitude > 0.1f)
             {
                 Reconciliation(diffrence);
-                Debug.Log("recon");
-                
+                Debug.Log("Reconciliation");
             }
-            // if (Input.GetKeyDown(KeyCode.Mouse0))
-            // {
-            //     Debug.Log(DiffrenceVector().magnitude);
-            //     Debug.Log(tickRegistery[^1]);
-            //     Debug.Log(m_Player.m_ClientTick.Value);
-            // }
-            
-            
-            transform.position = positionRegistery[^1];
-            //Debug.Log(positionRegistery.Count);
-            //positionRegistery.RemoveAt(0);
-            //lastTickChecked = m_Player.m_ClientTick.Value;
-            
-            //Réécriture des registre sans les positions associées à des frames passées
-            //RegisteryCleanUp();
-            
+
+            transform.position = positionRegistery[positionRegistery.Count - 1];
         }
-
-
     }
 
     private Vector2 InputCollecting()
@@ -193,15 +179,10 @@ public class PlayerGhost : NetworkBehaviour
 
     private void Reconciliation(Vector2 diff)
     {
-        List<Vector2> buffer = new List<Vector2>();
-
-        foreach (Vector2 position in positionRegistery)
+        for (int i = 0; i < positionRegistery.Count; i++)
         {
-            buffer.Add(new Vector2((position.x + diff.x),(position.y + diff.y)));
+            positionRegistery[i] += diff;
         }
-
-        positionRegistery = buffer;
-
     }
 
 
