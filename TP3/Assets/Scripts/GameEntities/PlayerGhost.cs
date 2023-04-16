@@ -6,38 +6,26 @@ using UnityEngine;
 
 public class PlayerGhost : NetworkBehaviour
 {
-    [SerializeField] 
-    private Player m_Player;
+    [SerializeField] private Player m_Player;
     private GameState m_GameState;
 
-   // private GameState gamestate;
-
-    private uint serverTickRate;
-    private int serverTick;
     private Vector2 positionLocal;
-    
-    
-    [SerializeField] 
-    private SpriteRenderer m_SpriteRenderer;
+    private List<int> tickRegistery;
+    private List<Vector2> positionRegistery;
+    private int lastTickChecked;
+    private Vector2 diffrence;
+
+    [SerializeField] private SpriteRenderer m_SpriteRenderer;
 
     public override void OnNetworkSpawn()
     {
         // L'entite qui appartient au client est recoloriee en rouge
 
-        if (IsServer)
-        {
-            
-        }
-        if (IsClient)
-        {
-            serverTickRate = m_GameState.ServerTickRate.Value;
-
-        }
 
         if (IsOwner)
         {
             m_SpriteRenderer.color = Color.red;
-            
+
         }
     }
 
@@ -45,49 +33,58 @@ public class PlayerGhost : NetworkBehaviour
     {
         m_Player = FindObjectOfType<Player>();
         m_GameState = m_Player.m_GameState;
+        tickRegistery = new List<int>();
+        positionRegistery = new List<Vector2>();
+        diffrence = new Vector2(0, 0);
+        
+        lastTickChecked = 0;
     }
+
     private void Update()
     {
-        //Debug.Log(m_GameState.m_CurrentRtt);
-       
+
+
         if (IsServer)
         {
             transform.position = m_Player.Position;
         }
-        
+
         if (IsClient)
         {
+            //Stun check
             if (m_GameState.m_stunnedLocal)
             {
                 return;
             }
-                
-            serverTick = m_GameState.ServerTick.Value;
-            
+
             positionLocal = (Vector2)transform.position + (InputCollecting() * (m_Player.m_Velocity * Time.deltaTime));
             
-            var size = m_GameState.GameSize;
-            var m_Size = m_Player.m_Size;
-            if (positionLocal.x - m_Size < -size.x)
-            {
-                positionLocal = new Vector2(-size.x + m_Size, positionLocal.y);
-            }
-            else if (positionLocal.x + m_Size > size.x)
-            {
-                positionLocal = new Vector2(size.x - m_Size, positionLocal.y);
-            }
+            //Wall collision check
+            WallCollision();
+            
+            //Ajout de la position au registre
+            positionRegistery.Add(positionLocal);
 
-            if (positionLocal.y + m_Size > size.y)
-            {
-                positionLocal = new Vector2(positionLocal.x, size.y - m_Size);
-            }
-            else if (positionLocal.y - m_Size < -size.y)
-            {
-                positionLocal = new Vector2(positionLocal.x, -size.y + m_Size);
-            }
+            // if (lastTickChecked == m_Player.m_ClientTick.Value)
+            // {
+            //     transform.position = positionRegistery[0];
+            //     return;
+            // }
+            
+            // diffrence = DiffrenceVector();
+            // if (diffrence.magnitude < 1)
+            // {
+            //     Reconciliation(diffrence);
+            // }
 
-            transform.position = positionLocal;
-            //transform.position = m_Player.Position;
+            
+            
+            transform.position = positionRegistery[^1];
+            //positionRegistery.RemoveAt(0);
+            //lastTickChecked = m_Player.m_ClientTick.Value;
+            
+            //Réécriture des registre sans les positions associées à des frames passées
+            //RegisteryCleanUp();
         }
 
 
@@ -120,8 +117,81 @@ public class PlayerGhost : NetworkBehaviour
 
     }
 
+    private void WallCollision()
+    {
+        var size = m_GameState.GameSize;
+        var m_Size = m_Player.m_Size;
+        if (positionLocal.x - m_Size < -size.x)
+        {
+            positionLocal = new Vector2(-size.x + m_Size, positionLocal.y);
+        }
+        else if (positionLocal.x + m_Size > size.x)
+        {
+            positionLocal = new Vector2(size.x - m_Size, positionLocal.y);
+        }
+
+        if (positionLocal.y + m_Size > size.y)
+        {
+            positionLocal = new Vector2(positionLocal.x, size.y - m_Size);
+        }
+        else if (positionLocal.y - m_Size < -size.y)
+        {
+            positionLocal = new Vector2(positionLocal.x, -size.y + m_Size);
+        }
+    }
+
+    private void RegisteryCleanUp()
+    {
+        List<Vector2> vectorListBuffer = new List<Vector2>();
+        List<int> intListBuffer = new List<int>();
+
+        for (int i = 0; i < positionRegistery.Count - 1; i++)
+        {
+            if (tickRegistery[i] > lastTickChecked)
+            {
+                vectorListBuffer.Add(positionRegistery[i]);
+                intListBuffer.Add(tickRegistery[i]);
+            }
+            positionRegistery = vectorListBuffer;
+            tickRegistery = intListBuffer;
+        }
+    }
+
+    private Vector2 DiffrenceVector()
+    {
+        int i = 0;
+        float diffx = 0f;
+        float diffy = 0f;
+        
+        foreach (int tick in tickRegistery)
+        {
+            if (tick == m_Player.m_ClientTick.Value)
+            {
+                i = tick;
+                break;
+            }
+        }
+        
+        diffx = m_Player.Position.x - positionRegistery[i].x;
+        diffy = m_Player.Position.y - positionRegistery[i].y;
+
+        return new Vector2(diffx, diffy);
+    }
+
+    private void Reconciliation(Vector2 diff)
+    {
+        List<Vector2> buffer = new List<Vector2>();
+
+        foreach (Vector2 position in positionRegistery)
+        {
+            buffer.Add(new Vector2((position.x + diff.x),(position.y + diff.y)));
+        }
+
+        positionRegistery = buffer;
+
+    }
 
 
-    
+
 }
 

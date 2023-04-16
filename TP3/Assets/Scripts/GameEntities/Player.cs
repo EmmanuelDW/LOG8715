@@ -28,11 +28,11 @@ public class Player : NetworkBehaviour
     }
 
     private NetworkVariable<Vector2> m_Position = new NetworkVariable<Vector2>();
-
+    public NetworkVariable<int> m_ClientTick = new NetworkVariable<int>();
     public Vector2 Position => m_Position.Value;
 
     private Queue<Vector2> m_InputQueue = new Queue<Vector2>();
-    
+    private Queue<int> m_TickQueue = new Queue<int>();
     
     private void Awake()
     {
@@ -67,7 +67,8 @@ public class Player : NetworkBehaviour
         if (m_InputQueue.Count > 0)
         {
             var input = m_InputQueue.Dequeue();
-            m_Position.Value += input * m_Velocity * Time.deltaTime;
+            m_ClientTick.Value = m_TickQueue.Dequeue();
+            m_Position.Value += input * (m_Velocity * Time.deltaTime);
 
             // Gestion des collisions avec l'exterieur de la zone de simulation
             var size = GameState.GameSize;
@@ -110,19 +111,20 @@ public class Player : NetworkBehaviour
         {
             inputDirection += Vector2.right;
         }
-        SendInputServerRpc(inputDirection.normalized);
+        SendInputServerRpc(inputDirection.normalized, m_GameState.localTick);
     }
 
 
     [ServerRpc]
-    private void SendInputServerRpc(Vector2 input)
+    private void SendInputServerRpc(Vector2 input, int tick)
     {
         // On utilise une file pour les inputs pour les cas ou on en recoit plusieurs en meme temps.
+        m_TickQueue.Enqueue(tick);
         m_InputQueue.Enqueue(input);
     }
+    
 
-    
-    
+
 
 
 }

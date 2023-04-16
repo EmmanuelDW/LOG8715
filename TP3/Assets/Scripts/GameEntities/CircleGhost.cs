@@ -9,6 +9,7 @@ public class CircleGhost : NetworkBehaviour
     [SerializeField]
     private MovingCircle m_MovingCircle;
 
+    
     private Vector2 m_positionLocal;
     private Vector2 m_velocityLocal;
 
@@ -16,21 +17,18 @@ public class CircleGhost : NetworkBehaviour
     {
         m_positionLocal = m_MovingCircle.Position;
         m_velocityLocal = m_MovingCircle.Velocity;
-        Debug.Log(m_positionLocal);
-        Debug.Log(m_velocityLocal);
-
         
     }
 
     private void Update()
     {
-        
-        
+
+
         if (IsClient)
         {
+           
 
-            
-            if (m_MovingCircle.m_GameState.m_stunnedLocal)
+                if (m_MovingCircle.m_GameState.m_stunnedLocal)
             {
                 return;
             }
@@ -71,4 +69,6 @@ public class CircleGhost : NetworkBehaviour
             transform.position = m_MovingCircle.Position; 
         }
     }
+
+
 }
