@@ -42,7 +42,10 @@ public class PlayerGhost : NetworkBehaviour
 
     private void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Debug.Log(transform.position);
+        }
 
         if (IsServer)
         {
@@ -64,27 +67,36 @@ public class PlayerGhost : NetworkBehaviour
             
             //Ajout de la position au registre
             positionRegistery.Add(positionLocal);
-
+            tickRegistery.Add(m_GameState.localTick);
             // if (lastTickChecked == m_Player.m_ClientTick.Value)
             // {
             //     transform.position = positionRegistery[0];
             //     return;
             // }
             
-            // diffrence = DiffrenceVector();
-            // if (diffrence.magnitude < 1)
+            diffrence = DiffrenceVector();
+            if (diffrence.magnitude > 1)
+            {
+                Reconciliation(diffrence);
+                Debug.Log("recon");
+                
+            }
+            // if (Input.GetKeyDown(KeyCode.Mouse0))
             // {
-            //     Reconciliation(diffrence);
+            //     Debug.Log(DiffrenceVector().magnitude);
+            //     Debug.Log(tickRegistery[^1]);
+            //     Debug.Log(m_Player.m_ClientTick.Value);
             // }
-
             
             
             transform.position = positionRegistery[^1];
+            //Debug.Log(positionRegistery.Count);
             //positionRegistery.RemoveAt(0);
             //lastTickChecked = m_Player.m_ClientTick.Value;
             
             //Réécriture des registre sans les positions associées à des frames passées
             //RegisteryCleanUp();
+            
         }
 
 
@@ -140,6 +152,7 @@ public class PlayerGhost : NetworkBehaviour
         }
     }
 
+    
     private void RegisteryCleanUp()
     {
         List<Vector2> vectorListBuffer = new List<Vector2>();
