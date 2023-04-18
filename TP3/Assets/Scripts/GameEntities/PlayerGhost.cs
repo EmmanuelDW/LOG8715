@@ -12,7 +12,7 @@ public class PlayerGhost : NetworkBehaviour
     private Vector2 positionLocal;
     private List<int> tickRegistery;
     private List<Vector2> positionRegistery;
-    private int lastTickChecked;
+    //private int lastTickChecked;
     private Vector2 diffrence;
 
     [SerializeField] private SpriteRenderer m_SpriteRenderer;
@@ -37,7 +37,7 @@ public class PlayerGhost : NetworkBehaviour
         positionRegistery = new List<Vector2>();
         diffrence = new Vector2(0, 0);
         
-        lastTickChecked = 0;
+        //lastTickChecked = 0;
     }
 
     private void Update()
@@ -45,6 +45,8 @@ public class PlayerGhost : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Debug.Log(transform.position);
+            Debug.Log(tickRegistery.Count);
+            Debug.Log(positionRegistery.Count);
         }
 
         if (IsServer)
@@ -63,7 +65,7 @@ public class PlayerGhost : NetworkBehaviour
             Vector2 inputDirection = InputCollecting();
             if (inputDirection != Vector2.zero)
             {
-                positionLocal += inputDirection.normalized * (m_Player.m_Velocity * Time.deltaTime);
+                positionLocal += inputDirection * (m_Player.m_Velocity * Time.deltaTime);
             }
 
             //Wall collision check
@@ -84,7 +86,7 @@ public class PlayerGhost : NetworkBehaviour
                 Debug.Log("Reconciliation");
             }
 
-            transform.position = positionRegistery[positionRegistery.Count - 1];
+            transform.position = positionRegistery[^1];
         }
     }
 
@@ -141,19 +143,26 @@ public class PlayerGhost : NetworkBehaviour
     
     private void RegisteryCleanUp()
     {
-        List<Vector2> vectorListBuffer = new List<Vector2>();
-        List<int> intListBuffer = new List<int>();
-
-        for (int i = 0; i < positionRegistery.Count - 1; i++)
+        // List<Vector2> vectorListBuffer = new List<Vector2>();
+        // List<int> intListBuffer = new List<int>();
+        //
+        // for (int i = 0; i < positionRegistery.Count - 1; i++)
+        // {
+        //     if (tickRegistery[i] > lastTickChecked)
+        //     {
+        //         vectorListBuffer.Add(positionRegistery[i]);
+        //         intListBuffer.Add(tickRegistery[i]);
+        //     }
+        //     positionRegistery = vectorListBuffer;
+        //     tickRegistery = intListBuffer;
+        // }
+        while (positionRegistery.Count() > 300)
         {
-            if (tickRegistery[i] > lastTickChecked)
-            {
-                vectorListBuffer.Add(positionRegistery[i]);
-                intListBuffer.Add(tickRegistery[i]);
-            }
-            positionRegistery = vectorListBuffer;
-            tickRegistery = intListBuffer;
+            positionRegistery.RemoveAt(0);
+            tickRegistery.RemoveAt(0);
+            
         }
+
     }
 
     private Vector2 DiffrenceVector()
@@ -164,15 +173,21 @@ public class PlayerGhost : NetworkBehaviour
         
         foreach (int tick in tickRegistery)
         {
+            
             if (tick == m_Player.m_ClientTick.Value)
             {
-                i = tick;
+                
                 break;
             }
+            i++;
         }
-        
-        diffx = m_Player.Position.x - positionRegistery[i].x;
-        diffy = m_Player.Position.y - positionRegistery[i].y;
+
+        if (i >= 0 && i < positionRegistery.Count)
+        {
+            diffx = m_Player.Position.x - positionRegistery[i].x;
+            diffy = m_Player.Position.y - positionRegistery[i].y;
+        }
+            
 
         return new Vector2(diffx, diffy);
     }
